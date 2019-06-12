@@ -15,6 +15,7 @@ def get_applications_info():
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
+
     try:
         plist = plistlib.readPlistFromString(output)
         # system_profiler xml is an array
@@ -50,6 +51,8 @@ def flatten_applications_info(array):
                 device['signed_by'] = obj[item][0]
             elif item == 'has64BitIntelCode' and obj[item] == 'yes':
                 device['has64bit'] = 1
+            elif item == 'arch_kind' and (obj[item] == 'arch_i64' or obj[item] == 'arch_i32_i64'):
+                device['has64bit'] = 1
         out.append(device)
     return out
 
@@ -65,6 +68,10 @@ def main():
         if sys.argv[1] == 'manualcheck':
             print 'Manual check: skipping'
             exit(0)
+            
+    # Set the encoding
+    reload(sys)  
+    sys.setdefaultencoding('utf8')
 
     # Get results
     result = dict()
