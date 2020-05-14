@@ -1,3 +1,6 @@
+<div id="applications-tab"></div>
+<h2 data-i18n="applications.applications"></h2>
+
 <p>
 <table class="applications table table-striped table-bordered">
 	<thead>
