@@ -1,3 +1,6 @@
+<div id="applications-tab"></div>
+<h2 data-i18n="applications.applications"></h2>
+
 <p>
 <table class="applications table table-striped table-bordered">
 	<thead>
@@ -8,6 +11,7 @@
           <th data-i18n="applications.obtained_from"></th>
           <th data-i18n="applications.last_modified"></th>
           <th data-i18n="applications.has64bit"></th>
+          <th data-i18n="applications.runtime_environment"></th>
           <th data-i18n="path"></th>
           <th data-i18n="info"></th>
 		</tr>
@@ -23,6 +27,7 @@
           <td><?php echo str_replace(array('unknown','mac_app_store','apple','identified_developer'), array('Unknown','Mac App Store','Apple','Identified Developer'), $item->obtained_from); ?></td>
           <td><?php echo date("Y-m-d H:i:s", $item->last_modified); ?></td>
           <td><?php echo str_replace(array('1','0'), array('Yes','No'), $item->has64bit); ?></td>
+          <td><?php echo $item->runtime_environment; ?></td>
           <td><?php echo $item->path; ?></td>
           <td><?php echo $item->info; ?></td>
         </tr>

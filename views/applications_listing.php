@@ -1,11 +1,5 @@
 <?php $this->view('partials/head'); ?>
 
-<?php //Initialize models needed for the table
-new Machine_model;
-new Reportdata_model;
-new Applications_model;
-?>
-
 <div class="container">
   <div class="row">
 	<div class="col-lg-12">
@@ -24,6 +18,7 @@ new Applications_model;
 			<th data-i18n="applications.obtained_from" data-colname='applications.obtained_from'></th>
 			<th data-i18n="applications.last_modified" data-colname='applications.last_modified'></th>
 			<th data-i18n="applications.has64bit" data-colname='applications.has64bit'></th>
+			<th data-i18n="applications.runtime_environment" data-colname='applications.runtime_environment'></th>
 			<th data-i18n="path" data-colname='applications.path'></th>
 			<th data-i18n="info" data-colname='applications.info'></th>
 		  </tr>
@@ -61,7 +56,7 @@ new Applications_model;
 
         $('.table th').map(function(){
 
-            columnDefs.push({name: $(this).data('colname'), targets: col});
+            columnDefs.push({name: $(this).data('colname'), targets: col, render: $.fn.dataTable.render.text()});
 
             if($(this).data('sort')){
               mySort.push([col, $(this).data('sort')])
