@@ -18,6 +18,7 @@
 			<th data-i18n="applications.obtained_from" data-colname='applications.obtained_from'></th>
 			<th data-i18n="applications.last_modified" data-colname='applications.last_modified'></th>
 			<th data-i18n="applications.has64bit" data-colname='applications.has64bit'></th>
+			<th data-i18n="applications.runtime_environment" data-colname='applications.runtime_environment'></th>
 			<th data-i18n="path" data-colname='applications.path'></th>
 			<th data-i18n="info" data-colname='applications.info'></th>
 		  </tr>
@@ -120,7 +121,17 @@
 	        	var bit64=$('td:eq(7)', nRow).html();
 	        	bit64 = bit64 == '1' ? i18n.t('Yes') :
 	        	(bit64 === '0' ? i18n.t('No') : '')
-	        	$('td:eq(7)', nRow).html(bit64)
+				$('td:eq(7)', nRow).html(bit64)
+				
+				// Arch
+	        	var runtime_environment=$('td:eq(8)', nRow).html();
+	        	runtime_environment = runtime_environment == 'arch_i64' ? "Intel":
+	        	runtime_environment = runtime_environment == 'arch_i32_i64' ? "Intel":
+	        	runtime_environment = runtime_environment == 'arch_i32' ? "Intel":
+				runtime_environment = runtime_environment == 'arch_arm_i64' ? "Universal":
+				runtime_environment = runtime_environment == 'arch_ios' ? "Silicon":
+	        	(runtime_environment = runtime_environment == 'arch_other' ? "unknown": runtime_environment)
+	        	$('td:eq(8)', nRow).html(runtime_environment)
 		    }
 	    });
 

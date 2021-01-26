@@ -3,7 +3,7 @@
     "signed_by": "Signed By",
     "obtained_from": "Obtained From",
     "last_modified": "Last Modified",
-    "runtime_environment": "Runtime Environment",
+    "runtime_environment": "Architecture",
     "has64bit": "64-Bit",
     "mac_app_store": "Mac App Store",
     "identified_developer": "Identified Developer",
