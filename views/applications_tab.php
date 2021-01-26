@@ -27,7 +27,7 @@
           <td><?php echo str_replace(array('unknown','mac_app_store','apple','identified_developer'), array('Unknown','Mac App Store','Apple','Identified Developer'), $item->obtained_from); ?></td>
           <td><?php echo date("Y-m-d H:i:s", $item->last_modified); ?></td>
           <td><?php echo str_replace(array('1','0'), array('Yes','No'), $item->has64bit); ?></td>
-          <td><?php echo str_replace(array('arch_i64','arch_i32_i64','arch_i32','arch_arm_i64','arch_ios'), array('Intel','Intel','Intel','Universal','Silicon'), $item->runtime_environment); ?></td>
+          <td><?php echo str_replace(array('arch_i64','arch_i32_i64','arch_i32','arch_arm_i64','arch_ios','arch_other'), array('Intel','Intel','Intel','Universal','Silicon','unknown'), $item->runtime_environment); ?></td>
           <td><?php echo $item->path; ?></td>
           <td><?php echo $item->info; ?></td>
         </tr>

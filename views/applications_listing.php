@@ -121,7 +121,17 @@
 	        	var bit64=$('td:eq(7)', nRow).html();
 	        	bit64 = bit64 == '1' ? i18n.t('Yes') :
 	        	(bit64 === '0' ? i18n.t('No') : '')
-	        	$('td:eq(7)', nRow).html(bit64)
+				$('td:eq(7)', nRow).html(bit64)
+				
+				// Arch
+	        	var runtime_environment=$('td:eq(8)', nRow).html();
+	        	runtime_environment = runtime_environment == 'arch_i64' ? "Intel":
+	        	runtime_environment = runtime_environment == 'arch_i32_i64' ? "Intel":
+	        	runtime_environment = runtime_environment == 'arch_i32' ? "Intel":
+				runtime_environment = runtime_environment == 'arch_arm_i64' ? "Universal":
+				runtime_environment = runtime_environment == 'arch_ios' ? "Silicon":
+	        	(runtime_environment = runtime_environment == 'arch_other' ? "unknown": runtime_environment)
+	        	$('td:eq(8)', nRow).html(runtime_environment)
 		    }
 	    });
 
