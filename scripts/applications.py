@@ -55,6 +55,7 @@ def flatten_applications_info(array):
                 device['runtime_environment'] = obj[item]
                 if (obj[item] == 'arch_i64' or obj[item] == 'arch_i32_i64' or obj[item] == 'arch_arm_i64' or obj[item] == 'arch_ios'):
                     device['has64bit'] = 1
+
         out.append(device)
     return out
 
