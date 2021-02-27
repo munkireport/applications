@@ -9,5 +9,6 @@
     "identified_developer": "Identified Developer",
     "applications": "Applications",
     "no_32_bit": "No 32-bit Applications",
-    "32_bit_apps": "32-bit Applications"
+    "32_bit_apps": "32-bit Applications",
+    "bundle_version": "Bundle Version"
 }

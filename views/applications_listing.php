@@ -14,6 +14,7 @@
 			<th data-i18n="serial" data-colname='reportdata.serial_number'></th>
 			<th data-i18n="name" data-colname='applications.name'></th>
 			<th data-i18n="version" data-colname='applications.version'></th>
+			<th data-i18n="applications.bundle_version" data-colname='applications.bundle_version'></th>
 			<th data-i18n="applications.signed_by" data-colname='applications.signed_by'></th>
 			<th data-i18n="applications.obtained_from" data-colname='applications.obtained_from'></th>
 			<th data-i18n="applications.last_modified" data-colname='applications.last_modified'></th>
@@ -26,7 +27,7 @@
 
 		<tbody>
 		  <tr>
-			<td data-i18n="listing.loading" colspan="10" class="dataTables_empty"></td>
+			<td data-i18n="listing.loading" colspan="12" class="dataTables_empty"></td>
 		  </tr>
 		</tbody>
 
@@ -105,23 +106,37 @@
 	        	$('td:eq(0)', nRow).html(link);
                 
                 // Localize Obtained From
-	        	var obtained_from=$('td:eq(5)', nRow).html();
+	        	var obtained_from=$('td:eq(6)', nRow).html();
 	        	obtained_from = obtained_from == 'unknown' ? i18n.t('unknown') :
 	        	obtained_from = obtained_from == 'mac_app_store' ? i18n.t('applications.mac_app_store') :
 	        	obtained_from = obtained_from == 'apple' ? "Apple":
 	        	(obtained_from === 'identified_developer' ? i18n.t('applications.identified_developer') : obtained_from)
-	        	$('td:eq(5)', nRow).html(obtained_from)
+	        	$('td:eq(6)', nRow).html(obtained_from)
                 
                 // Format date
-	        	var event = parseInt($('td:eq(6)', nRow).html());
+	        	var event = parseInt($('td:eq(7)', nRow).html());
 	        	var date = new Date(event * 1000);
-	        	$('td:eq(6)', nRow).html('<span title="' + moment(date).fromNow() + '">'+ moment(date).format('llll')+'</span>');
-                
-	        	// 64-bit Yes/No
-	        	var bit64=$('td:eq(7)', nRow).html();
-	        	bit64 = bit64 == '1' ? i18n.t('Yes') :
-	        	(bit64 === '0' ? i18n.t('No') : '')
-	        	$('td:eq(7)', nRow).html(bit64)
+	        	$('td:eq(7)', nRow).html('<span title="' + moment(date).fromNow() + '">'+ moment(date).format('llll')+'</span>');
+
+                // runtime_environment
+                var colbit=$('td:eq(8)', nRow).html();
+                var colvar=$('td:eq(9)', nRow).html();
+                colvar = colvar == 'arch_x86' && colbit == '1' ? 'Intel 64-bit' :
+                colvar = colvar == 'arch_x86' && colbit == '0' ? 'Intel 32-bit' :
+                colvar = colvar == 'arch_i64' ? 'Intel 64-bit' :
+                colvar = colvar == 'arch_i32_i64' ? 'Intel 32/64-bit' :
+                colvar = colvar == 'arch_i32' ? 'Intel 32-bit' :
+                colvar = colvar == 'arch_arm_i64' ? 'Universal 2' :
+                colvar = colvar == 'arch_ios' ? 'Apple Silicon' :
+                colvar = colvar == 'arch_arm' ? 'Apple Silicon' :
+                (colvar == 'arch_arm' ? 'Apple Silicon' : colvar)
+                $('td:eq(9)', nRow).html(colvar)
+
+                // has64bit
+                var colvar=$('td:eq(8)', nRow).html();
+                colvar = colvar == '1' ? i18n.t('yes') :
+                (colvar == '0' ? i18n.t('no') : '')
+                $('td:eq(8)', nRow).html(colvar)
 		    }
 	    });
 
