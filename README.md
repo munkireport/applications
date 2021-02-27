@@ -5,7 +5,9 @@ Shows information about applications on the client.
 
 Data can be viewed under the Applications tab on the client details page or using the Applications listing view 
 
-Database:
+
+Table Schema
+------
 * name - varchar(255) - name of the application
 * path - TEXT - application's path
 * last_modified - BIGINT - date application was last modified (epoch)
@@ -15,3 +17,4 @@ Database:
 * info - TEXT - info about the application
 * has64bit - int - 0/1 does application contain 64-bit code
 * signed_by - varchar(255) - code signing of application
+* bundle_version - varchar(255) - the application's bundle version from the CFBundleVersion key 

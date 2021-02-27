@@ -1,0 +1,10 @@
+type: scrollbox
+widget_id: 32-bit-apps-widget
+api_url: /module/applications/get_32_bit_apps
+i18n_title: applications.32_bit_apps
+icon: fa-code
+listing_link: /show/listing/applications/applications
+search_key: name
+url_type: client_detail
+i18nEmptyResult: applications.no_32_bit
+badge: count

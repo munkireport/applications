@@ -16,55 +16,46 @@ class Applications_controller extends Module_controller
 		$this->module_path = dirname(__FILE__);
 	}
 
-	/**
+    /**
 	 * Default method
 	 * @author tuxudo
 	 *
 	 **/
-	function index()
+    function index()
 	{
 		echo "You've loaded the applications module!";
 	}
     
-	/**
+    /**
+     * Retrieve data in json format for widget
+     *
+     **/
+    public function get_32_bit_apps()
+    {
+        $sql = "SELECT COUNT(CASE WHEN name <> '' AND has64bit = 0 THEN 1 END) AS count, name
+                FROM applications
+                LEFT JOIN reportdata USING (serial_number)
+                WHERE has64bit = 0
+                ".get_machine_group_filter('AND')."
+                GROUP BY name
+                ORDER BY count DESC";
+
+        $queryobj = new Applications_model();
+        jsonView($queryobj->query($sql));
+     }
+    
+    /**
      * Retrieve data in json format
      *
      **/
     public function get_data($serial_number = '')
     {
-        $obj = new View();
-
-        if (! $this->authorized()) {
-            $obj->view('json', array('msg' => 'Not authorized'));
-        }
-        
-        $queryobj = new Applications_model();
-        
-        $sql = "SELECT name, path, lastModified, obtained_from, runtime_environment, version, info, signed_by, has64BitIntelCode
+        $sql = "SELECT name, path, last_modified, obtained_from, runtime_environment, version, bundle_version, info, signed_by, has64bit
                         FROM applications
                         WHERE serial_number = '$serial_number'";
-        
-        $applications_tab = $queryobj->query($sql);
 
-        $applications = new Applications_model;
-        $obj->view('json', array('msg' => current(array('msg' => $applications_tab)))); 
+        $queryobj = new Applications_model();
+        jsonView($queryobj->query($sql));
     }
-    
-     /**
-     * Retrieve data in json format for widget
-     *
-     **/
-     public function get_32_bit_apps()
-     {
-        $obj = new View();
-
-        if (! $this->authorized()) {
-            $obj->view('json', array('msg' => array('error' => 'Not authenticated')));
-            return;
-        }
-        
-        $apps_32 = new Applications_model;
-        $obj->view('json', array('msg' => $apps_32->get_32_bit_apps()));
-     }
 		
-} // END class Applications_controller
+} // End class Applications_controller

@@ -7,6 +7,20 @@ import os
 import plistlib
 import sys
 
+sys.path.insert(0, '/usr/local/munki')
+sys.path.insert(0, '/usr/local/munkireport')
+
+from munkilib import FoundationPlist
+
+def get_app_bundle_version(app_path):
+    '''Return the CFBundleVersion of the app based on its path'''
+
+    try:
+        info_plist = FoundationPlist.readPlist(app_path+"/Contents/Info.plist")
+        return info_plist['CFBundleVersion']
+
+    except Exception:
+        return ""
 
 def get_applications_info():
     '''Uses system profiler to get applications for this machine.'''
@@ -15,6 +29,7 @@ def get_applications_info():
                             stdin=subprocess.PIPE,
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     (output, unused_error) = proc.communicate()
+
     try:
         plist = plistlib.readPlistFromString(output)
         # system_profiler xml is an array
@@ -40,6 +55,7 @@ def flatten_applications_info(array):
                 device['obtained_from'] = obj[item]
             elif item == 'path':
                 device['path'] = obj[item]
+                device['bundle_version'] = get_app_bundle_version(obj[item])
             elif item == 'runtime_environment':
                 device['runtime_environment'] = obj[item]
             elif item == 'version':
@@ -50,28 +66,26 @@ def flatten_applications_info(array):
                 device['signed_by'] = obj[item][0]
             elif item == 'has64BitIntelCode' and obj[item] == 'yes':
                 device['has64bit'] = 1
+            elif item == 'arch_kind':
+                device['runtime_environment'] = obj[item]
+                if (obj[item] == 'arch_i64' or obj[item] == 'arch_i32_i64' or obj[item] == 'arch_arm_i64' or obj[item] == 'arch_ios'):
+                    device['has64bit'] = 1
         out.append(device)
     return out
 
 def main():
     """Main"""
-    # Create cache dir if it does not exist
-    cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
-    if not os.path.exists(cachedir):
-        os.makedirs(cachedir)
-
-    # Skip manual check
-    if len(sys.argv) > 1:
-        if sys.argv[1] == 'manualcheck':
-            print 'Manual check: skipping'
-            exit(0)
+    # Set the encoding
+    reload(sys)  
+    sys.setdefaultencoding('utf8')
 
     # Get results
     result = dict()
     info = get_applications_info()
     result = flatten_applications_info(info)
-    
+
     # Write applications results to cache
+    cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
     output_plist = os.path.join(cachedir, 'applications.plist')
     plistlib.writePlist(result, output_plist)
     #print plistlib.writePlistToString(result)
