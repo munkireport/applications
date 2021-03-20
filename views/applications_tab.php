@@ -49,6 +49,10 @@
                     data: data,
                     order: [[0,'asc']],
                     autoWidth: false,
+                    columnDefs: [{
+                        targets: "_all",
+                        render: $.fn.dataTable.render.text()
+                    }],
                     columns: [
                         { data: 'name' },
                         { data: 'version' },
@@ -68,7 +72,7 @@
                         obtained_from = obtained_from == 'mac_app_store' ? i18n.t('applications.mac_app_store') :
                         obtained_from = obtained_from == 'apple' ? "Apple":
                         (obtained_from == 'identified_developer' ? i18n.t('applications.identified_developer') : obtained_from)
-                        $('td:eq(4)', nRow).html(obtained_from)
+                        $('td:eq(4)', nRow).text(obtained_from)
 
                         // Format date
                         var event = parseInt($('td:eq(5)', nRow).html());
@@ -87,13 +91,13 @@
                         colvar = colvar == 'arch_ios' ? 'Apple Silicon' :
                         colvar = colvar == 'arch_arm' ? 'Apple Silicon' :
                         (colvar == 'arch_arm' ? 'Apple Silicon' : colvar)
-                        $('td:eq(7)', nRow).html(colvar)
+                        $('td:eq(7)', nRow).text(colvar)
 
                         // has64bit
                         var colvar=$('td:eq(6)', nRow).html();
                         colvar = colvar == '1' ? i18n.t('yes') :
                         (colvar == '0' ? i18n.t('no') : '')
-                        $('td:eq(6)', nRow).html(colvar)
+                        $('td:eq(6)', nRow).text(colvar)
                     }
                 });
             }
