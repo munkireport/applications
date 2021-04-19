@@ -1,5 +1,6 @@
 {
     "name": "munkireport/applications",
     "description": "Module for munkireport.",
-    "license": "MIT"
+    "license": "MIT",
+    "version": "6.0.0"
 }
