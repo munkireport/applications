@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/munkireport/munkireport-python
 # Applications for munkireport
 # By Tuxudo
 
