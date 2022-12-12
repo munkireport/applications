@@ -1,4 +1,4 @@
-#!/usr/local/munkireport/munkireport-python2
+#!/usr/local/munkireport/munkireport-python3
 # Applications for munkireport
 # By Tuxudo
 
@@ -7,18 +7,13 @@ import os
 import plistlib
 import sys
 
-sys.path.insert(0, '/usr/local/munki')
-sys.path.insert(0, '/usr/local/munkireport')
-
-from munkilib import FoundationPlist
-
 def get_app_bundle_version(app_path):
     '''Return the CFBundleVersion of the app based on its path'''
 
     try:
-        info_plist = FoundationPlist.readPlist(app_path+"/Contents/Info.plist")
+        with open(app_path+"/Contents/Info.plist", 'rb') as fp:
+            info_plist = plistlib.load(fp)
         return info_plist['CFBundleVersion']
-
     except Exception:
         return ""
 
@@ -31,7 +26,10 @@ def get_applications_info():
     (output, unused_error) = proc.communicate()
 
     try:
-        plist = plistlib.readPlistFromString(output)
+        try:
+            plist = plistlib.readPlistFromString(output)
+        except AttributeError as e:
+            plist = plistlib.loads(output)
         # system_profiler xml is an array
         sp_dict = plist[0]
         items = sp_dict['_items']
@@ -75,9 +73,6 @@ def flatten_applications_info(array):
 
 def main():
     """Main"""
-    # Set the encoding
-    reload(sys)  
-    sys.setdefaultencoding('utf8')
 
     # Get results
     result = dict()
@@ -87,7 +82,11 @@ def main():
     # Write applications results to cache
     cachedir = '%s/cache' % os.path.dirname(os.path.realpath(__file__))
     output_plist = os.path.join(cachedir, 'applications.plist')
-    plistlib.writePlist(result, output_plist)
+    try:
+        plistlib.writePlist(result, output_plist)
+    except:
+        with open(output_plist, 'wb') as fp:
+            plistlib.dump(result, fp, fmt=plistlib.FMT_XML)
     #print plistlib.writePlistToString(result)
 
 
