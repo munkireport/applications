@@ -10,7 +10,7 @@
         <th data-i18n="name" data-colname='applications.name'></th>
         <th data-i18n="version" data-colname='applications.version'></th>
         <th data-i18n="applications.bundle_version" data-colname='applications.bundle_version'></th>
-        <th data-i18n="applications.signed_by" data-colname='applications.signed_by'></th>		      	
+        <th data-i18n="applications.signed_by" data-colname='applications.signed_by'></th>              
         <th data-i18n="applications.obtained_from" data-colname='applications.obtained_from'></th>
         <th data-i18n="applications.last_modified" data-colname='applications.last_modified'></th>
         <th data-i18n="applications.has64bit" data-colname='applications.has64bit'></th>
@@ -76,8 +76,10 @@
 
                         // Format date
                         var event = parseInt($('td:eq(5)', nRow).html());
-                        var date = new Date(event * 1000);
-                        $('td:eq(5)', nRow).html('<span title="' + moment(date).fromNow() + '">'+moment(date).format('llll')+'</span>');
+                        if (event > 0){
+                            var date = new Date(event * 1000);
+                            $('td:eq(5)', nRow).html('<span title="' + moment(date).fromNow() + '">'+moment(date).format('llll')+'</span>');
+                        }
 
                         // runtime_environment
                         var colbit=$('td:eq(6)', nRow).html();

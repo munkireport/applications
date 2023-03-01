@@ -11,7 +11,7 @@ class Applications_model extends \Model {
         $this->rs['serial_number'] = $serial;
         $this->rs['name'] = '';
         $this->rs['path'] = '';
-        $this->rs['last_modified'] = 0;
+        $this->rs['last_modified'] = null;
         $this->rs['obtained_from'] = '';
         $this->rs['runtime_environment'] = '';
         $this->rs['version'] = '';
@@ -47,7 +47,7 @@ class Applications_model extends \Model {
 
         $typeList = array(
             'name' => '',
-            'last_modified' => '',
+            'last_modified' => null,
             'obtained_from' => 'unknown',
             'path' => '',
             'runtime_environment' => '',
