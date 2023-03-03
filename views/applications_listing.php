@@ -130,6 +130,7 @@
                 colvar = colvar == 'arch_i32' ? 'Intel 32-bit' :
                 colvar = colvar == 'arch_arm_i64' ? 'Universal 2' :
                 colvar = colvar == 'arch_ios' ? 'Apple Silicon' :
+                colvar = colvar == 'arch_other' ? 'Unknown' :
                 colvar = colvar == 'arch_arm' ? 'Apple Silicon' :
                 (colvar == 'arch_arm' ? 'Apple Silicon' : colvar)
                 $('td:eq(9)', nRow).html(colvar)
