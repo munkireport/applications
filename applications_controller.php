@@ -50,6 +50,9 @@ class Applications_controller extends Module_controller
      **/
     public function get_data($serial_number = '')
     {
+        // Remove non-serial number characters
+        $serial_number = preg_replace("/[^A-Za-z0-9_\-]]/", '', $serial_number);
+
         $sql = "SELECT name, path, last_modified, obtained_from, runtime_environment, version, bundle_version, info, signed_by, has64bit
                         FROM applications
                         WHERE serial_number = '$serial_number'";
