@@ -17,6 +17,16 @@ def get_app_bundle_version(app_path):
     except Exception:
         return ""
 
+def get_app_version(app_path):
+    '''Return the CFBundleShortVersionString of the app based on its path'''
+
+    try:
+        with open(app_path+"/Contents/Info.plist", 'rb') as fp:
+            info_plist = plistlib.load(fp)
+        return info_plist['CFBundleShortVersionString']
+    except Exception:
+        return ""
+
 def get_applications_info():
     '''Uses system profiler to get applications for this machine.'''
     cmd = ['/usr/sbin/system_profiler', 'SPApplicationsDataType', '-xml']
@@ -41,34 +51,39 @@ def flatten_applications_info(array):
     '''Un-nest applications, return array with objects with relevant keys'''
     out = []
     for obj in array:
-        device = {'has64bit': 0}
+        app = {'has64bit': 0}
         for item in obj:
             if item == '_items':
                 out = out + flatten_applications_info(obj['_items'])
             elif item == '_name':
-                device['name'] = obj[item]
+                app['name'] = obj[item]
             elif item == 'lastModified':
-                device['last_modified'] = obj[item]
+                app['last_modified'] = obj[item]
             elif item == 'obtained_from':
-                device['obtained_from'] = obj[item]
+                app['obtained_from'] = obj[item]
             elif item == 'path':
-                device['path'] = obj[item]
-                device['bundle_version'] = get_app_bundle_version(obj[item])
+                app['path'] = obj[item]
+                app['bundle_version'] = get_app_bundle_version(obj[item])
             elif item == 'runtime_environment':
-                device['runtime_environment'] = obj[item]
+                app['runtime_environment'] = obj[item]
             elif item == 'version':
-                device['version'] = obj[item]
+                app['version'] = obj[item]
             elif item == 'info':
-                device['info'] = obj[item]
+                app['info'] = obj[item]
             elif item == 'signed_by':
-                device['signed_by'] = obj[item][0]
+                app['signed_by'] = obj[item][0]
             elif item == 'has64BitIntelCode' and obj[item] == 'yes':
-                device['has64bit'] = 1
+                app['has64bit'] = 1
             elif item == 'arch_kind':
-                device['runtime_environment'] = obj[item]
+                app['runtime_environment'] = obj[item]
                 if (obj[item] == 'arch_i64' or obj[item] == 'arch_i32_i64' or obj[item] == 'arch_arm_i64' or obj[item] == 'arch_ios'):
-                    device['has64bit'] = 1
-        out.append(device)
+                    app['has64bit'] = 1
+
+        # Sometimes Spotlight doesn't properly get the app version, get that manually
+        if "version" not in app and "path" in app:
+            app['version'] = get_app_version(app['path'])
+
+        out.append(app)
     return out
 
 def main():
