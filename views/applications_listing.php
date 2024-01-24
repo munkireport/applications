@@ -3,11 +3,8 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-
       <h3><span data-i18n="applications.reporttitle"></span> <span id="total-count" class='label label-primary'>…</span></h3>
-
       <table class="table table-striped table-condensed table-bordered">
-
         <thead>
           <tr>
             <th data-i18n="listing.computername" data-colname='machine.computer_name'></th>
@@ -24,13 +21,11 @@
             <th data-i18n="info" data-colname='applications.info'></th>
           </tr>
         </thead>
-
         <tbody>
           <tr>
             <td data-i18n="listing.loading" colspan="12" class="dataTables_empty"></td>
           </tr>
         </tbody>
-
       </table>
     </div> <!-- /span 12 -->
   </div> <!-- /row -->
@@ -132,6 +127,7 @@
                 colvar = colvar == 'arch_ios' ? 'Apple Silicon' :
                 colvar = colvar == 'arch_other' ? 'Unknown' :
                 colvar = colvar == 'arch_arm' ? 'Apple Silicon' :
+                colvar = colvar == 'arch_web' ? 'Web App' :
                 (colvar == 'arch_arm' ? 'Apple Silicon' : colvar)
                 $('td:eq(9)', nRow).html(colvar)
 
@@ -142,7 +138,6 @@
                 $('td:eq(8)', nRow).html(colvar)
             }
         });
-
     });
 </script>
 
