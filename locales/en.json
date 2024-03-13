@@ -6,6 +6,7 @@
     "runtime_environment": "Architecture",
     "has64bit": "64-Bit",
     "mac_app_store": "Mac App Store",
+    "ios_app_store": "iOS App Store",
     "identified_developer": "Identified Developer",
     "applications": "Applications",
     "no_32_bit": "No 32-bit Applications",
