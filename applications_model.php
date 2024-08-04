@@ -22,7 +22,7 @@ class Applications_model extends \Model {
 
         $this->serial_number = $serial;
     }
-	
+    
     // ------------------------------------------------------------------------
 
     /**
@@ -59,11 +59,15 @@ class Applications_model extends \Model {
         );
 
         // List of paths to ignore
-        $bundlepath_ignorelist = is_array(conf('bundlepath_ignorelist')) ? conf('bundlepath_ignorelist') : array();
+        configAppendFile(__DIR__ . '/config.php');
+
+        // List of paths to ignore
+        $bundlepath_ignorelist = is_array(conf('apps_bundlepath_ignorelist')) ? conf('apps_bundlepath_ignorelist') : array();
         $path_regex = ':^'.implode('|', $bundlepath_ignorelist).'$:';
 
         // Process each app
         foreach ($myList as $app) {
+
             // Check if we have a name
             if( ! array_key_exists("name", $app)){
                 continue;

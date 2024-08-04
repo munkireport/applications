@@ -99,7 +99,7 @@
                 var sn=$('td:eq(1)', nRow).html();
                 var link = mr.getClientDetailLink(name, sn, '#tab_applications-tab');
                 $('td:eq(0)', nRow).html(link);
-                
+
                 // Localize Obtained From
                 var obtained_from=$('td:eq(6)', nRow).html();
                 obtained_from = obtained_from == 'unknown' ? i18n.t('unknown') :
@@ -107,7 +107,7 @@
                 obtained_from = obtained_from == 'apple' ? "Apple":
                 (obtained_from === 'identified_developer' ? i18n.t('applications.identified_developer') : obtained_from)
                 $('td:eq(6)', nRow).html(obtained_from)
-                
+
                 // Format date
                 var event = parseInt($('td:eq(7)', nRow).html());
                 if (event > 0){

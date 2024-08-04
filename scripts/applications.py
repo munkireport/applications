@@ -76,7 +76,7 @@ def flatten_applications_info(array):
                 app['has64bit'] = 1
             elif item == 'arch_kind':
                 app['runtime_environment'] = obj[item]
-                if (obj[item] == 'arch_i64' or obj[item] == 'arch_i32_i64' or obj[item] == 'arch_arm_i64' or obj[item] == 'arch_ios'):
+                if (obj[item] == 'arch_i64' or obj[item] == 'arch_i32_i64' or obj[item] == 'arch_arm_i64' or obj[item] == 'arch_ios' or obj[item] == 'arch_arm'):
                     app['has64bit'] = 1
 
         # Sometimes Spotlight doesn't properly get the app version, get that manually

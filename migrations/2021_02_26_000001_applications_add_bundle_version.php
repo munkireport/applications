@@ -16,7 +16,7 @@ class ApplicationsAddBundleVersion extends Migration
             $table->index('bundle_version');
         });
     }
-    
+
     public function down()
     {
         $capsule = new Capsule();

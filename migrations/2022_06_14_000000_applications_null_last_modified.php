@@ -14,7 +14,7 @@ class ApplicationsNullLastModified extends Migration
             $table->bigInteger('last_modified')->nullable()->change();
         });
     }
-    
+
     public function down()
     {
         $capsule = new Capsule();

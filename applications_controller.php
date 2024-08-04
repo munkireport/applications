@@ -8,24 +8,23 @@
  **/
 class Applications_controller extends Module_controller
 {
-	
-	/*** Protect methods with auth! ****/
-	function __construct()
-	{
-		// Store module path
-		$this->module_path = dirname(__FILE__);
-	}
+    /*** Protect methods with auth! ****/
+    function __construct()
+    {
+        // Store module path
+        $this->module_path = dirname(__FILE__);
+    }
 
     /**
-	 * Default method
-	 * @author tuxudo
-	 *
-	 **/
+    * Default method
+    * @author tuxudo
+    *
+    **/
     function index()
-	{
-		echo "You've loaded the applications module!";
-	}
-    
+    {
+        echo "You've loaded the applications module!";
+    }
+
     /**
      * Retrieve data in json format for widget
      *
@@ -43,7 +42,7 @@ class Applications_controller extends Module_controller
         $queryobj = new Applications_model();
         jsonView($queryobj->query($sql));
      }
-    
+
     /**
      * Retrieve data in json format
      *
@@ -55,10 +54,11 @@ class Applications_controller extends Module_controller
 
         $sql = "SELECT name, path, last_modified, obtained_from, runtime_environment, version, bundle_version, info, signed_by, has64bit
                         FROM applications
-                        WHERE serial_number = '$serial_number'";
+                        LEFT JOIN reportdata USING (serial_number)
+                        ".get_machine_group_filter()."
+                        AND serial_number = '$serial_number'";
 
         $queryobj = new Applications_model();
         jsonView($queryobj->query($sql));
     }
-		
 } // End class Applications_controller
