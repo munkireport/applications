@@ -10,6 +10,7 @@
         <th data-i18n="name" data-colname='applications.name'></th>
         <th data-i18n="version" data-colname='applications.version'></th>
         <th data-i18n="applications.bundle_version" data-colname='applications.bundle_version'></th>
+        <th data-i18n="applications.bundle_id" data-colname='applications.bundle_id'></th>
         <th data-i18n="applications.signed_by" data-colname='applications.signed_by'></th>              
         <th data-i18n="applications.obtained_from" data-colname='applications.obtained_from'></th>
         <th data-i18n="applications.last_modified" data-colname='applications.last_modified'></th>
@@ -21,7 +22,7 @@
     </thead>
     <tbody>
         <tr>
-            <td data-i18n="listing.loading" colspan="10" class="dataTables_empty"></td>
+            <td data-i18n="listing.loading" colspan="11" class="dataTables_empty"></td>
         </tr>
     </tbody>
   </table>
@@ -57,6 +58,7 @@
                         { data: 'name' },
                         { data: 'version' },
                         { data: 'bundle_version' },
+                        { data: 'bundle_id' },
                         { data: 'signed_by' },
                         { data: 'obtained_from' },
                         { data: 'last_modified' },
@@ -67,23 +69,24 @@
                     ],
                     createdRow: function( nRow, aData, iDataIndex ) {
                         // Localize Obtained From
-                        var obtained_from=$('td:eq(4)', nRow).html();
+                        var obtained_from=$('td:eq(5)', nRow).html();
                         obtained_from = obtained_from == 'unknown' ? i18n.t('unknown') :
                         obtained_from = obtained_from == 'mac_app_store' ? i18n.t('applications.mac_app_store') :
                         obtained_from = obtained_from == 'apple' ? "Apple":
+                        obtained_from = obtained_from == 'safari' ? "Web Clip":
                         (obtained_from == 'identified_developer' ? i18n.t('applications.identified_developer') : obtained_from)
-                        $('td:eq(4)', nRow).text(obtained_from)
+                        $('td:eq(5)', nRow).text(obtained_from)
 
                         // Format date
-                        var event = parseInt($('td:eq(5)', nRow).html());
+                        var event = parseInt($('td:eq(6)', nRow).html());
                         if (event > 0){
                             var date = new Date(event * 1000);
-                            $('td:eq(5)', nRow).html('<span title="' + moment(date).fromNow() + '">'+moment(date).format('llll')+'</span>');
+                            $('td:eq(6)', nRow).html('<span title="' + moment(date).fromNow() + '">'+moment(date).format('llll')+'</span>');
                         }
 
                         // runtime_environment
-                        var colbit=$('td:eq(6)', nRow).html();
-                        var colvar=$('td:eq(7)', nRow).html();
+                        var colbit=$('td:eq(7)', nRow).html();
+                        var colvar=$('td:eq(8)', nRow).html();
                         colvar = colvar == 'arch_x86' && colbit == '1' ? 'Intel 64-bit' :
                         colvar = colvar == 'arch_x86' && colbit == '0' ? 'Intel 32-bit' :
                         colvar = colvar == 'arch_i64' ? 'Intel 64-bit' :
@@ -95,13 +98,13 @@
                         colvar = colvar == 'arch_web' ? 'Web App' :
                         colvar = colvar == 'arch_other' ? 'Unknown' :
                         (colvar == 'arch_arm' ? 'Apple Silicon' : colvar)
-                        $('td:eq(7)', nRow).text(colvar)
+                        $('td:eq(8)', nRow).text(colvar)
 
                         // has64bit
-                        var colvar=$('td:eq(6)', nRow).html();
+                        var colvar=$('td:eq(7)', nRow).html();
                         colvar = colvar == '1' ? i18n.t('yes') :
                         (colvar == '0' ? i18n.t('no') : '')
-                        $('td:eq(6)', nRow).text(colvar)
+                        $('td:eq(7)', nRow).text(colvar)
                     }
                 });
             }

@@ -13,7 +13,7 @@ def get_app_bundle_version(app_path):
     try:
         with open(app_path+"/Contents/Info.plist", 'rb') as fp:
             info_plist = plistlib.load(fp)
-        return info_plist['CFBundleVersion']
+        return info_plist
     except Exception:
         return ""
 
@@ -63,7 +63,18 @@ def flatten_applications_info(array):
                 app['obtained_from'] = obj[item]
             elif item == 'path':
                 app['path'] = obj[item]
-                app['bundle_version'] = get_app_bundle_version(obj[item])
+                app_info = get_app_bundle_version(obj[item])
+                try:
+                    app['bundle_version'] = app_info['CFBundleShortVersionString']
+                except Exception:
+                    app['bundle_version'] = ""
+                try:
+                    app['bundle_id'] = app_info['CFBundleIdentifier']
+                except Exception:
+                    try:
+                        app['bundle_id'] = app_info['Bundle identifier']
+                    except Exception:
+                        app['bundle_id'] = ""
             elif item == 'runtime_environment':
                 app['runtime_environment'] = obj[item]
             elif item == 'version':

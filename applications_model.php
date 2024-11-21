@@ -19,6 +19,7 @@ class Applications_model extends \Model {
         $this->rs['signed_by'] = '';
         $this->rs['has64bit'] = 0; // True or False
         $this->rs['bundle_version'] = '';
+        $this->rs['bundle_id'] = null;
 
         $this->serial_number = $serial;
     }
@@ -55,7 +56,8 @@ class Applications_model extends \Model {
             'info' => '',
             'signed_by' => '',
             'has64bit' => 0, // Yes or No
-            'bundle_version' => '' // Yes or No
+            'bundle_version' => '',
+            'bundle_id' => null
         );
 
         // List of paths to ignore

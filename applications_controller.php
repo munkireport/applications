@@ -52,7 +52,7 @@ class Applications_controller extends Module_controller
         // Remove non-serial number characters
         $serial_number = preg_replace("/[^A-Za-z0-9_\-]]/", '', $serial_number);
 
-        $sql = "SELECT name, path, last_modified, obtained_from, runtime_environment, version, bundle_version, info, signed_by, has64bit
+        $sql = "SELECT name, path, last_modified, obtained_from, runtime_environment, version, bundle_version, bundle_id, info, signed_by, has64bit
                         FROM applications
                         LEFT JOIN reportdata USING (serial_number)
                         ".get_machine_group_filter()."
