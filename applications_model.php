@@ -11,7 +11,7 @@ class Applications_model extends \Model {
         $this->rs['serial_number'] = $serial;
         $this->rs['name'] = '';
         $this->rs['path'] = '';
-        $this->rs['last_modified'] = 0;
+        $this->rs['last_modified'] = null;
         $this->rs['obtained_from'] = '';
         $this->rs['runtime_environment'] = '';
         $this->rs['version'] = '';
@@ -19,10 +19,11 @@ class Applications_model extends \Model {
         $this->rs['signed_by'] = '';
         $this->rs['has64bit'] = 0; // True or False
         $this->rs['bundle_version'] = '';
+        $this->rs['bundle_id'] = null;
 
         $this->serial_number = $serial;
     }
-	
+    
     // ------------------------------------------------------------------------
 
     /**
@@ -47,7 +48,7 @@ class Applications_model extends \Model {
 
         $typeList = array(
             'name' => '',
-            'last_modified' => '',
+            'last_modified' => null,
             'obtained_from' => 'unknown',
             'path' => '',
             'runtime_environment' => '',
@@ -55,15 +56,20 @@ class Applications_model extends \Model {
             'info' => '',
             'signed_by' => '',
             'has64bit' => 0, // Yes or No
-            'bundle_version' => '' // Yes or No
+            'bundle_version' => '',
+            'bundle_id' => null
         );
 
         // List of paths to ignore
-        $bundlepath_ignorelist = is_array(conf('bundlepath_ignorelist')) ? conf('bundlepath_ignorelist') : array();
+        configAppendFile(__DIR__ . '/config.php');
+
+        // List of paths to ignore
+        $bundlepath_ignorelist = is_array(conf('apps_bundlepath_ignorelist')) ? conf('apps_bundlepath_ignorelist') : array();
         $path_regex = ':^'.implode('|', $bundlepath_ignorelist).'$:';
 
         // Process each app
         foreach ($myList as $app) {
+
             // Check if we have a name
             if( ! array_key_exists("name", $app)){
                 continue;

@@ -3,7 +3,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-class ApplicationsAddBundleVersion extends Migration
+class ApplicationsAddBundleId extends Migration
 {
     private $tableName = 'applications';
 
@@ -11,9 +11,9 @@ class ApplicationsAddBundleVersion extends Migration
     {
         $capsule = new Capsule();
         $capsule::schema()->table($this->tableName, function (Blueprint $table) {
-            $table->string('bundle_version')->nullable();
-            
-            $table->index('bundle_version');
+            $table->string('bundle_id')->nullable();
+
+            $table->index('bundle_id');
         });
     }
 
@@ -21,7 +21,7 @@ class ApplicationsAddBundleVersion extends Migration
     {
         $capsule = new Capsule();
         $capsule::schema()->table($this->tableName, function (Blueprint $table) {
-            $table->dropColumn('bundle_version');
+            $table->dropColumn('bundle_id');
         });
     }
 }

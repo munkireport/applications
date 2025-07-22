@@ -31,7 +31,7 @@ class Applications extends Migration
             $table->index('has64bit');
         });
     }
-    
+
     public function down()
     {
         $capsule = new Capsule();
